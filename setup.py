@@ -19,7 +19,7 @@ setup(
     long_description=_read('README.rst'),
     url='https://github.com/tarioch/bapi',
     author='Patrick Ruckstuhl',
-    author_email='patrick.ruckstuhl@ch.tario.org',
+    author_email='patrick@ch.tario.org',
     license='GPLv2',
     classifiers=[
         'Development Status :: 3 - Alpha',
