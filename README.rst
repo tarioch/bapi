@@ -1,3 +1,6 @@
+.. image:: https://img.shields.io/travis/tarioch/bapi.svg
+    :target: https://travis-ci.org/tarioch/bapi?branch=master
+
 BAPI
 ====
 
