@@ -11,7 +11,7 @@
             "platform_python_implementation": "CPython",
             "platform_release": "4.9.0-3-amd64",
             "platform_system": "Linux",
-            "platform_version": "#1 SMP Debian 4.9.30-2+deb9u2 (2017-06-26)",
+            "platform_version": "#1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19)",
             "python_full_version": "3.5.3",
             "python_version": "3.5",
             "sys_platform": "linux"
