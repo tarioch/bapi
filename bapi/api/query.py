@@ -5,7 +5,7 @@ from bapi.core.storage import storage
 
 ns = api.namespace('query', description='Operations related to bean-query')
 
-class ValueField(fields.Raw):
+class ResultRowField(fields.Raw):
     def format(self, value):
         result = {}
         for name, column in value._asdict().items():
@@ -13,8 +13,15 @@ class ValueField(fields.Raw):
 
         return result
 
+    def schema(self):
+        schema = super(ResultRowField, self).schema()
+        schema['type'] = 'object'
+        schema['additionalProperties'] = {'type': 'string'}
+
+        return schema
+
 query_result = api.model('Query result', {
-    'rows' : fields.List(ValueField()),
+    'rows' : fields.List(ResultRowField(), descripton='Result rows', required=True),
 })
 
 @ns.route('/')
