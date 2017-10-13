@@ -1,18 +1,27 @@
-from bapi.api.core import api
 from flask_restplus.resource import Resource
-from bapi.core import storage
+from flask_restplus import fields
+from bapi.api.core import api
+from bapi.core.storage import storage
 
 ns = api.namespace('query', description='Operations related to bean-query')
 
+class ValueField(fields.Raw):
+    def format(self, value):
+        result = {}
+        for name, column in value._asdict().items():
+            result[name] = str(column)
+
+        return result
+
+query_result = api.model('Query result', {
+    'rows' : fields.List(ValueField()),
+})
+
 @ns.route('/')
 class Query(Resource):
+    @api.marshal_with(query_result)
     def get(self):
-        types, rows = storage.storage.runQuery('select position')
+        _, rows = storage.runQuery('select position, currency')
         
-        res = []
-        for row in rows:
-            resRow = []
-            res.append(resRow)
-            for col in row:
-                resRow.append(col.to_string())
-        return res 
+        return {'rows': rows}
+
