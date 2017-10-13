@@ -21,7 +21,7 @@ class ResultRowField(fields.Raw):
         return schema
 
 query_result = api.model('Query result', {
-    'rows' : fields.List(ResultRowField(), descripton='Result rows', required=True),
+    'rows' : fields.List(ResultRowField(description='Columns', example={'currency': 'CHF', 'amount': '122'}), required=True, description='Result rows'),
 })
 
 @ns.route('/')
