@@ -1,8 +1,5 @@
 from bapi.api.core import api
 from flask_restplus.resource import Resource
-from beancount import loader
-from beancount.query import query
-from bapi.core import config
 from bapi.core import storage
 
 ns = api.namespace('query', description='Operations related to bean-query')
