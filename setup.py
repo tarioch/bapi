@@ -37,6 +37,7 @@ setup(
         'beancount',
         'flask',
         'flask-restplus',
+        'click'
     ],
     entry_points={
         'console_scripts': [
