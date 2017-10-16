@@ -1,5 +1,5 @@
 test:
-	pipenv run py.test --junitxml=report.xml
+	pipenv run py.test
 
 prepare:
 	pip install pipenv --upgrade
