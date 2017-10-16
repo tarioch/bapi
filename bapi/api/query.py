@@ -1,9 +1,14 @@
+from flask import request
 from flask_restplus.resource import Resource
-from flask_restplus import fields
+from flask_restplus import fields, reqparse
 from bapi.api.core import api
 from bapi.core.storage import storage
 
 ns = api.namespace('query', description='Operations related to bean-query')
+
+
+query_arguments = reqparse.RequestParser()
+query_arguments.add_argument('query', required=True, help='Query to execute')
 
 class ResultRowField(fields.Raw):
     def format(self, value):
@@ -26,9 +31,13 @@ query_result = api.model('Query result', {
 
 @ns.route('/')
 class Query(Resource):
+
+    @api.expect(query_arguments, validate=True)
     @api.marshal_with(query_result)
     def get(self):
-        _, rows = storage.runQuery('select position, currency')
+        args = query_arguments.parse_args(request)
+        query = args.get('query')
+        _, rows = storage.runQuery(query)
         
         return {'rows': rows}
 
