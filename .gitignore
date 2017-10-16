@@ -101,7 +101,3 @@ ENV/
 .mypy_cache/
 /.project
 /.pydevproject
-
-# Pipenv
-Pipfile
-Pipfile.lock
