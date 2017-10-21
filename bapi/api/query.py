@@ -25,7 +25,7 @@ class ResultRowField(fields.Raw):
 
         return schema
 
-query_result = api.model('Query result', {
+query_result = api.model('QueryResult', {
     'rows' : fields.List(ResultRowField(description='Columns', example={'currency': 'CHF', 'amount': '122'}), required=True, description='Result rows'),
 })
 
