@@ -5,6 +5,9 @@ prepare:
 	pip install pipenv --upgrade
 
 init:
-	pipenv install --dev --skip-lock 
+	pipenv install --dev --skip-lock
+
+release:
+	fullrelease
 
 .PHONY: install test
