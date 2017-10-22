@@ -10,5 +10,9 @@ python_version = "3.5"
 "e1839a8" = {editable = true, path = "."}
 
 
+
+
+
 [dev-packages]
 pytest = "*"
+"zest.releaser" = "*"
