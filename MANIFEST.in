@@ -1,0 +1,3 @@
+include LICENSE README.rst
+recursive-include bapi *
+global-exclude *.py[co] *.orig __pycache__ .DS_Store
