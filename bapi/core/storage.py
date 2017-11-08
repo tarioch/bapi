@@ -1,4 +1,4 @@
-from os.path import join
+from os import path
 from beancount import loader
 from beancount.query import query
 from bapi.core.exception import BapiException
@@ -16,7 +16,7 @@ class Storage:
         return self.basedir
     
     def reload(self):
-        self.entries, errors, self.options = loader.load_file(join(self.basedir, self.fileName))
+        self.entries, errors, self.options = loader.load_file(path.join(self.basedir, self.fileName))
         if errors:
             printer.print_errors(errors)
             raise BapiException('Failed to load file ' + self.fileName + '.')
@@ -26,5 +26,10 @@ class Storage:
             return query.run_query(self.entries, self.options, queryString)
         except (CompilationError, ParseError) as exc :
             raise BapiException('Query failed: ' + str(exc)) from exc
+    
+    def setPrices(self, prices, fileName):
+        with open(path.join(self.basedir, fileName), 'w') as output:
+            printer.print_entries(prices, file=output)
+        
 
 storage = Storage()

@@ -16,6 +16,7 @@ class RepoUpdate(Resource):
         return 'done'
     
 @ns.route('/commit/<string:message>')
+@api.doc(params={'message': 'The commit message'})
 class RepoCommit(Resource):
 
     def post(self, message):
