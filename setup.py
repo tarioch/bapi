@@ -37,7 +37,8 @@ setup(
         'beancount',
         'flask',
         'flask-restplus',
-        'click'
+        'click',
+        'gitpython'
     ],
     entry_points={
         'console_scripts': [

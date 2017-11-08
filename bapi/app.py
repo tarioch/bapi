@@ -3,6 +3,7 @@ import click
 from flask import Flask
 from bapi.api.core import api
 from bapi.api.query import ns as query_ns
+from bapi.api.repo import ns as repo_ns
 from bapi.core.storage import storage
 from bapi import __version__
 
@@ -13,15 +14,21 @@ from bapi import __version__
               help='The host to listen on. (default: localhost)')
 @click.option('-d', '--debug', is_flag=True,
               help='Turn on debugging.')
-@click.argument('filename',
+@click.option('--repo/--no-repo', default=False)
+@click.argument('basedir',
                 type=click.Path(exists=True, resolve_path=True))
+@click.argument('filename',
+                type=click.Path(exists=False, resolve_path=False))
 @click.version_option(version=__version__, prog_name='bapi')
-def main(filename, port, host, debug):
-    storage.load(filename)
+def main(basedir, filename, port, host, debug, repo):
+    storage.load(basedir, filename)
     
     app = Flask(__name__)
 
     api.add_namespace(query_ns)
+    if repo:
+        api.add_namespace(repo_ns)
+
     api.init_app(app)
 
     app.run(host=host, port=port, debug=debug, threaded=True)
