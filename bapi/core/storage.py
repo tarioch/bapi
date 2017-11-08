@@ -30,6 +30,10 @@ class Storage:
     def setPrices(self, prices, fileName):
         with open(path.join(self.basedir, fileName), 'w') as output:
             printer.print_entries(prices, file=output)
+    
+    def addTransaction(self, transaction, fileName):
+        with open(path.join(self.basedir, fileName), 'a') as output:
+            printer.print_entry(transaction, file=output)
         
 
 storage = Storage()

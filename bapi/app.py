@@ -5,6 +5,7 @@ from bapi.api.core import api
 from bapi.api.query import ns as query_ns
 from bapi.api.repo import ns as repo_ns
 from bapi.api.price import ns as price_ns
+from bapi.api.transaction import ns as transaction_ns
 from bapi.core.storage import storage
 from bapi import __version__
 
@@ -30,6 +31,7 @@ def main(basedir, filename, port, host, debug, repo):
     if repo:
         api.add_namespace(repo_ns)
         api.add_namespace(price_ns)
+        api.add_namespace(transaction_ns)
 
     api.init_app(app)
 
