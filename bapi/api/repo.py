@@ -16,13 +16,13 @@ class RepoUpdate(Resource):
         return 'done'
     
 @ns.route('/commit/<string:message>')
-@api.doc(params={'message': 'The commit message'})
 class RepoCommit(Resource):
 
+    @api.doc(params={'message': 'The commit message'})
     def post(self, message):
         gitRepo = git.Repo(storage.basedir)
         if gitRepo.is_dirty():
-            gitRepo.git.commit(m=message)
+            gitRepo.git.commit('-a', m=message)
             gitRepo.git.push()
             return 'commited'
         else:
