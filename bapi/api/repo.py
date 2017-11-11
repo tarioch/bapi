@@ -1,9 +1,14 @@
+from flask import request
 from flask_restplus.resource import Resource
+from flask_restplus import reqparse
 from bapi.api.core import api
 from bapi.core.storage import storage
 import git
 
 ns = api.namespace('repo', description='Operations related to interact with repository')
+
+commit_arguments = reqparse.RequestParser()
+commit_arguments.add_argument('message', required=True, help='Commit message')
 
 @ns.route('/update')
 class RepoUpdate(Resource):
@@ -15,11 +20,14 @@ class RepoUpdate(Resource):
         
         return 'done'
     
-@ns.route('/commit/<string:message>')
+@ns.route('/commit')
 class RepoCommit(Resource):
 
-    @api.doc(params={'message': 'The commit message'})
-    def post(self, message):
+    @api.expect(commit_arguments, validate=True)
+    def post(self):
+        args = commit_arguments.parse_args(request)
+        message = args.get('message')
+        
         gitRepo = git.Repo(storage.basedir)
         if gitRepo.is_dirty():
             gitRepo.git.commit('-a', m=message)
