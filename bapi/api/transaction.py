@@ -10,8 +10,8 @@ ns = api.namespace('transaction', description='Transactions')
 
 posting_model = api.model('Posting', {
     'account': fields.String(required=True, description='Account of the posting'),
-    'amount': fields.Arbitrary(required=True, description='Amount'),
-    'currency': fields.String(required=True, description='Currency'),
+    'amount': fields.Arbitrary(description='Amount'),
+    'currency': fields.String(description='Currency'),
     'cost': fields.Arbitrary(description='Cost'),
     'costCurrency': fields.String(description='Cost Currency'),
 })
@@ -46,9 +46,14 @@ class Transaction(Resource):
             else:
                 cost = None
 
+            if 'amount' in reqPost and 'currency' in reqPost:
+                amt = amount.Amount(D(str(reqPost['amount'])), reqPost['currency'])
+            else:
+                amt = None
+
             postings.append(data.Posting(
                 reqPost['account'],
-                amount.Amount(D(str(reqPost['amount'])), reqPost['currency']),
+                amt,
                 cost,
                 None,
                 None,
