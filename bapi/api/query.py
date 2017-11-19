@@ -3,6 +3,7 @@ from flask_restplus.resource import Resource
 from flask_restplus import fields, reqparse
 from bapi.api.core import api
 from bapi.core.storage import storage
+from beancount.core import amount, number, position
 
 ns = api.namespace('query', description='Operations related to bean-query')
 
@@ -14,9 +15,40 @@ class ResultRowField(fields.Raw):
     def format(self, value):
         result = {}
         for name, column in value._asdict().items():
-            result[name] = str(column)
+            if isinstance(column, amount.Amount):
+                val = self.formatAmount(column)
+            elif isinstance(column, number.Decimal):
+                val = self.formatDecimal(column)
+            elif isinstance(column, position.Position):
+                val = self.formatPosition(column)
+            else:
+                val = str(column)
+                
+            result[name] = val
 
         return result
+    
+    def formatPosition(self, val):
+        return {
+            'units': self.formatAmount(val.units),
+            'cost': self.formatCost(val.cost)
+        }
+    
+    def formatAmount(self, val):
+        return {
+            'amount': str(val.number),
+            'currency': str(val.currency),
+        }
+        return str(val)
+    
+    def formatDecimal(self, val):
+        return str(val)
+    
+    def formatCost(self, val):
+        if val:
+            return str(val)
+        else:
+            return None
 
     def schema(self):
         schema = super(ResultRowField, self).schema()
