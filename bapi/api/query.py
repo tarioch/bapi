@@ -3,7 +3,7 @@ from flask_restplus.resource import Resource
 from flask_restplus import fields, reqparse
 from bapi.api.core import api
 from bapi.core.storage import storage
-from beancount.core import amount, number, position
+from beancount.core import amount, number, position, inventory
 
 ns = api.namespace('query', description='Operations related to bean-query')
 
@@ -21,12 +21,21 @@ class ResultRowField(fields.Raw):
                 val = self.formatDecimal(column)
             elif isinstance(column, position.Position):
                 val = self.formatPosition(column)
+            elif isinstance(column, inventory.Inventory):
+                val = self.formatInventory(column)
             else:
                 val = str(column)
                 
             result[name] = val
 
         return result
+    
+    def formatInventory(self, val):
+        res =[]
+        for i in val:
+            res.append(self.formatPosition(i))
+            
+        return res
     
     def formatPosition(self, val):
         return {
