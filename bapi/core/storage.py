@@ -28,7 +28,7 @@ class Storage:
             raise BapiException('Query failed: ' + str(exc)) from exc
     
     def setPrices(self, prices, fileName):
-        with open(path.join(self.basedir, fileName), 'w') as output:
+        with open(path.join(self.basedir, fileName), 'a') as output:
             printer.print_entries(prices, file=output)
     
     def addTransaction(self, transaction, fileName):
