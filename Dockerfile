@@ -8,4 +8,4 @@ RUN apt-get update \
 
 USER appuser
 
-CMD bapi --host 0.0.0.0 --repo /data/repo main.beancount
+CMD ["bapi", "--host", "0.0.0.0", "--repo", "/data/repo", "main.beancount"]
