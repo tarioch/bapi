@@ -3,7 +3,7 @@ FROM python:3.6
 RUN apt-get update \
 	&& apt-get install -y openjdk-8-jre-headless \
         && pip install bapi \
-        && pip install tabula-py \
+        && pip install tariochbctools \
         && useradd -d /data -g root appuser -u 911
 
 USER appuser
